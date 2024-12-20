@@ -8,7 +8,7 @@ There are 3 ways in which one can execute Haskell code:
 
 1. Running Haskell code in the interactive mode using `ghci`.
 2. Running Haskell code using `runhaskell`.
-3. Compiling Haskell code using `ghc`.
+3. Compiling Haskell code using `ghc` and then running the executable.
 
 ## Running Haskell code in the interactive mode using `ghci`
 
@@ -33,6 +33,7 @@ odd 3
 ```haskell
 take 5 [1..]
 ```
+When you want to exit `ghci`, you can type `:quit` or `:q`.
 
 However another usage of `ghci` is to load a Haskell file and run the code in the file.
 
@@ -80,7 +81,7 @@ This will create 3 files:
 2. `test.o` - Object file
 3. `test` - Executable file
 
-The only file we need to concern ourselves with is the executable file `test`. The other files are created by the compiler to help in subsequent compilations steps. The `.hi` file contains the type information of the functions in the file and the `.o` file contains the object code. Both are binary files and are used by the complier in case you ask it to compile another file that depends on the functions in the `test.hs` file.
+The only file we need to concern ourselves with is the executable file `test`. The other files are created by the compiler to help in subsequent compilation steps. The `.hi` file contains the type information of the functions in the file and the `.o` file contains the object code. Both are binary files and are used by the complier in case you ask it to compile another file that depends on the functions in the `test.hs` file.
 
 To run the executable file:
 
@@ -99,3 +100,5 @@ While programming, it is common to use `ghci` to test small snippets of code and
 `ghci` is a great tool to detect errors in your code. It will give you a detailed error message that will help you understand what went wrong.
 
 Because of that it very common to use `ghci` regularly while writing Haskell code.
+
+Another tool that is enabled in VS Code by default when you use the Haskell Plugin is the Haskell Language Server. This tool will also help you detect errors in your code and provide suggestions to fix them.

@@ -4,8 +4,9 @@
 
    - Setup and Installation
    - ghcup
-   - VSCode
-   - Haskell Language Server
+   - VSCode extensions
+      - Haskell
+   - Haskell Language Server and the GHC, Cabal, and Stack versions
 
 2. Hello World
 
