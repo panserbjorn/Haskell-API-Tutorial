@@ -121,10 +121,136 @@ Now, if we run the `cabal run` command, we should get a nice output from the `ha
 
 ## Stack
 
+Stack is a building tool made on top of Cabal. It used to cover for most of t Cabal deficiencies. It focuses on the idea of snapshots, which are a set of packages that are known to work well together. It also has a feature called `stack.yaml` file, which is used to specify the resolver and other build options for your project. Another aspect is that it uses a specific version of GHC for each project, which is specified in the `stack.yaml` file.
+
+We will show how to use Stack with an example in this section, but will use only cabal for the rest of the examples.
+
 ### Start a new project
+
+To start a new project with Stack, you can use the `stack new` command. This will create a new project directory with a `stack.yaml` file that you can use to specify the resolver and other build options for your project.
+
+Let's run the following command to generate a new sample project:
+
+```bash
+stack new stack-sample-project --snapshot lts-21.25
+```
+
+We use the snapshot `lts-21.25` in this example. The snapshot defines the versions of the tools and the templates for the projects that are going to be used. This snapshot in paticular hast a stable version of ghc that works well with lhs. 
+
+The structure of the project will look like this:
+
+```
+stack-sample-project/
+  app/
+    Main.hs
+  src/
+    Lib.hs
+  test/
+    Spec.hs
+  stack.yaml
+  stack.yaml.lock
+  CHANGELOG.md
+  LICENSE
+  README.md
+  stack-sample-project.cabal
+  .gitignore
+```
+
+This is a more elaborate strcuture for a project. 
+
+In this case the project is divided in three main directories: `app`, `src`, and `test`. Thet contain the code for the project, the source code for the library, and the tests for the project, respectively.
+
+If you review the cabal file, you'll find the 3 sections that correspond to the 3 directories mentioned above. The library section is the one that corresponds to the `src` directory, the executable section is the one that corresponds to the `app` directory, and the test-suite section is the one that corresponds to the `test` directory.
+
+You can see how the app and the library interact in the `Main.hs` file:
+
+```haskell
+module Main (main) where
+
+import Lib
+
+main :: IO ()
+main = someFunc
+```
+
+And the `Lib.hs` file:
+
+```haskell
+module Lib
+    ( someFunc
+    ) where
+
+someFunc :: IO ()
+someFunc = putStrLn "someFunc"
+```
+The relationshipt is also present in the cabal file in the `build-depends` section of the `executable`.
+
+
 
 ### Build the project
 
+To build the stack project, you can use the `stack build` command. This will compile the source code in the `app` directory and produce an executable that you can run.
+
+Let's run the following command to build the project:
+
+```bash
+stack build
+```
+
+If the version of GHC that you are using is not the same as the one specified in the `stack.yaml` file, Stack will download the correct version of GHC and use it to build the project.
+
 ### Run the project
 
+Once we have built our project, we can run it using the `stack run` command. This will run the executable that was produced by the build command.
+
+Let's run the following command to run the project:
+
+```bash
+stack run
+```
+
+We can also run the tests for the project using the `stack test` command. This will run the tests that are defined in the `test` directory.
+
+Let's run the following command to run the tests for the project:
+
+```bash
+stack test
+```
+
 ### Add dependencies
+
+To add a dependency to the project we need to add it to the `package.yaml` file. This file is used to specify the dependencies and build options for your project.
+
+Let's add the `HaskellSay` package as a dependency to our project. To do this, we need to add the following line to the `dependencies` section of the `package.yaml` file:
+
+```yaml
+dependencies:
+- base >= 4.7 && < 5
+- haskell-say
+```
+
+Now we will change the `Lib.hs` file to use the `HaskellSay` package:
+
+```haskell
+module Lib
+    ( someFunc
+    ) where
+
+import HaskellSay (haskellSay)
+
+someFunc :: IO ()
+someFunc = haskellSay "someFunc"
+```
+
+Now if we build we will get the following error: `Could not find module ‘HaskellSay’`. This is because we need to add the package to the `extra-deps` section of the `stack.yaml` file.
+
+Since Stack works with snapshots, the package might be in the list or it might not. In the case that it is not, we need to add it to the `extra-deps` section of the `stack.yaml` file.
+
+Let's add the `HaskellSay` package to the `extra-deps` section of the `stack.yaml` file:
+
+```yaml
+extra-deps:
+- haskell-say-1.0.0.0
+```
+
+Now if we build the project again, it should work.
