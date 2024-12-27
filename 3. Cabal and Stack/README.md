@@ -53,7 +53,9 @@ This is a simple Haskell program that prints "Hello, Haskell!" to the console.
 
 ### Build the project
 
-Once we have our project set up, we can build it using the `cabal build` command. This will compile the source code in the `app` directory and produce an executable that we can run.
+Once we have our project set up, we can build it using the `cabal build` command. This will compile the source code in the `app` directory and produce an executable that we can run and distribute.
+
+The location of the executable will be in the `dist-newstyle/build/BULD-SETUP/ghc-VERSION/PACKAGE-NAME-VERSION/x/EXECUTABLE-NAME/build/EXECUTABLE-NAME/` directory. Once you find it, you can run it or distribute it.
 
 Let's run the following command to build the project:
 
